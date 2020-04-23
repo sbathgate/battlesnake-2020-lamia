@@ -2,6 +2,9 @@ import os
 import random
 
 import cherrypy
+import numpy as np
+
+import game_state
 
 """
 This is a simple Battlesnake server written in Python.
@@ -29,7 +32,7 @@ class Battlesnake(object):
         # TODO: Use this function to decide how your snake is going to look on the board.
         data = cherrypy.request.json
         print("START")
-        return {"color": "#888888", "headType": "regular", "tailType": "regular"}
+        return {"color": "#888888", "headType": "pixel", "tailType": "pixel"}
 
     @cherrypy.expose
     @cherrypy.tools.json_in()
@@ -38,7 +41,9 @@ class Battlesnake(object):
         # This function is called on every turn of a game. It's how your snake decides where to move.
         # Valid moves are "up", "down", "left", or "right".
         # TODO: Use the information in cherrypy.request.json to decide your next move.
-        data = cherrypy.request.json
+        data = cherrypy.request.json       
+        board_setup = game_state.get_game_state(data)
+        print(board_setup)
 
         # Choose a random direction to move in
         possible_moves = ["up", "down", "left", "right"]
